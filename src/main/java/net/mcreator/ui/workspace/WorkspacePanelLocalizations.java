@@ -120,8 +120,8 @@ class WorkspacePanelLocalizations extends AbstractWorkspacePanel {
 
 			JTable elements = new JTable(new DefaultTableModel(
 					new Object[] { L10N.t("workspace.localization.column_key"),
-							"Localized text for " + entry.getKey() + (entry.getKey().equals("en_us") ?
-									" - values in en_us might get overwritten!" :
+							"Localized text for " + entry.getKey() + (entry.getKey().equals("zh_cn") ?
+									" - values in zh_cn might get overwritten!" :
 									" - mappings can be edited here") }, 0));
 
 			final Font textFont = new Font("Sans-Serif", Font.PLAIN, 13);
@@ -216,7 +216,7 @@ class WorkspacePanelLocalizations extends AbstractWorkspacePanel {
 					reloadElements();
 				}
 			});
-			button.setEnabled(!entry.getKey().equals("en_us"));
+			button.setEnabled(!entry.getKey().equals("zh_cn"));
 
 			String flagpath = "/flags/" + entry.getKey().split("_")[1].toUpperCase(Locale.ENGLISH) + ".png";
 			JLabel label = new JLabel(" " + entry.getKey() + " ");
@@ -262,7 +262,7 @@ class WorkspacePanelLocalizations extends AbstractWorkspacePanel {
 				if (pane.getSelectedIndex() != id)
 					return;
 
-				if (entry.getKey().equals("en_us")) {
+				if (entry.getKey().equals("zh_cn")) {
 					JOptionPane.showMessageDialog(workspacePanel.getMCreator(),
 							L10N.t("workspace.localization.confirm_export"),
 							L10N.t("workspace.localization.export_translation"), JOptionPane.WARNING_MESSAGE);
@@ -271,8 +271,8 @@ class WorkspacePanelLocalizations extends AbstractWorkspacePanel {
 
 				File expFile = FileDialogs.getSaveDialog(workspacePanel.getMCreator(), new String[] { ".csv" });
 				if (expFile != null) {
-					Map<String, String> en_us = workspacePanel.getMCreator().getWorkspace().getLanguageMap()
-							.get("en_us");
+					Map<String, String> zh_cn = workspacePanel.getMCreator().getWorkspace().getLanguageMap()
+							.get("zh_cn");
 
 					ByteArrayOutputStream csvResult = new ByteArrayOutputStream();
 					Writer outputWriter = new OutputStreamWriter(csvResult);
@@ -283,7 +283,7 @@ class WorkspacePanelLocalizations extends AbstractWorkspacePanel {
 							"English text (DON'T EDIT - reference only)");
 					for (Map.Entry<String, String> langs : workspacePanel.getMCreator().getWorkspace().getLanguageMap()
 							.get(entry.getKey()).entrySet())
-						writer.writeRow(langs.getKey(), langs.getValue(), en_us.get(langs.getKey()));
+						writer.writeRow(langs.getKey(), langs.getValue(), zh_cn.get(langs.getKey()));
 					writer.close();
 
 					FileIO.writeStringToFile("SEP=,\n" + csvResult.toString(StandardCharsets.UTF_8), expFile);
@@ -294,7 +294,7 @@ class WorkspacePanelLocalizations extends AbstractWorkspacePanel {
 				if (pane.getSelectedIndex() != id)
 					return;
 
-				if (entry.getKey().equals("en_us")) {
+				if (entry.getKey().equals("zh_cn")) {
 					JOptionPane.showMessageDialog(workspacePanel.getMCreator(),
 							L10N.t("workspace.localization.warning_export"),
 							L10N.t("workspace.localization.export_translation"), JOptionPane.WARNING_MESSAGE);
@@ -303,8 +303,8 @@ class WorkspacePanelLocalizations extends AbstractWorkspacePanel {
 
 				File impFile = FileDialogs.getOpenDialog(workspacePanel.getMCreator(), new String[] { ".csv" });
 				if (impFile != null) {
-					ConcurrentHashMap<String, String> en_us = workspacePanel.getMCreator().getWorkspace()
-							.getLanguageMap().get("en_us");
+					ConcurrentHashMap<String, String> zh_cn = workspacePanel.getMCreator().getWorkspace()
+							.getLanguageMap().get("zh_cn");
 					CsvParserSettings settings = new CsvParserSettings();
 					settings.setDelimiterDetectionEnabled(true);
 					CsvParser parser = new CsvParser(settings);
@@ -318,7 +318,7 @@ class WorkspacePanelLocalizations extends AbstractWorkspacePanel {
 						String key = row[0];
 						String value = row[1];
 
-						if (en_us.containsKey(key) && value != null)
+						if (zh_cn.containsKey(key) && value != null)
 							keyValueMap.put(key, value);
 					}
 
@@ -401,10 +401,10 @@ class WorkspacePanelLocalizations extends AbstractWorkspacePanel {
 
 			String based_from_id = (String) JOptionPane.showInputDialog(workspacePanel.getMCreator(),
 					L10N.t("workspace.localization.language_copy"), L10N.t("workspace.localization.add_localization"),
-					JOptionPane.QUESTION_MESSAGE, null, language_map.keySet().toArray(), "en_us");
+					JOptionPane.QUESTION_MESSAGE, null, language_map.keySet().toArray(), "zh_cn");
 			if (based_from_id != null) {
-				ConcurrentHashMap<String, String> en_us = language_map.get(based_from_id);
-				workspacePanel.getMCreator().getWorkspace().addLanguage(locale, en_us);
+				ConcurrentHashMap<String, String> zh_cn = language_map.get(based_from_id);
+				workspacePanel.getMCreator().getWorkspace().addLanguage(locale, zh_cn);
 				reloadElements();
 			}
 		}

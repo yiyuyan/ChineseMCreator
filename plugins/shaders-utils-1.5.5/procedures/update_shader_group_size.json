@@ -1,0 +1,45 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "width",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "height",
+      "check": "Number"
+    },
+    {
+      "type": "field_image",
+      "src": "./res/client.png",
+      "width": 8,
+      "height": 24
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#FFB280",
+  "mcreator": {
+    "toolbox_id": "shadersutils",
+    "toolbox_init": [
+      "<value name=\"width\"><block type=\"math_number\"><field name=\"NUM\">1920</field></block></value>",
+      "<value name=\"height\"><block type=\"math_number\"><field name=\"NUM\">1080</field></block></value>"
+    ],
+    "inputs": [
+      "width",
+      "height"
+    ],
+    "dependencies": [
+      {
+        "name": "entity",
+        "type": "entity"
+      },
+      {
+        "name": "world",
+        "type": "world"
+      }
+    ]
+  }
+}

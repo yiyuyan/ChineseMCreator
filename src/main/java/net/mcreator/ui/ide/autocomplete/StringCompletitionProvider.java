@@ -30,7 +30,7 @@ import java.util.Set;
 public class StringCompletitionProvider extends DefaultCompletionProvider {
 
 	public StringCompletitionProvider(Workspace workspace) {
-		Map<String, String> enLangMap = workspace.getLanguageMap().get("en_us");
+		Map<String, String> enLangMap = workspace.getLanguageMap().get("zh_cn");
 		Set<String> localizationKeys = enLangMap.keySet();
 		for (String localKeyTest : localizationKeys) {
 			String[] data = localKeyTest.split("\\.");

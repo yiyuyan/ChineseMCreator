@@ -28,7 +28,7 @@ public class UserFolderManager {
 			return new File(System.getenv("MCREATOR_HOME"));
 		}
 
-		return new File(System.getProperty("user.home") + "/.mcreator/");
+		return new File(System.getProperty("user.dir") + "/.mcreator/");
 	}
 
 	public static boolean createUserFolderIfNotExists() {

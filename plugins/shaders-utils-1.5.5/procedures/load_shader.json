@@ -1,0 +1,38 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "shader_location",
+      "check": "String"
+    },
+    {
+      "type": "field_image",
+      "src": "./res/client.png",
+      "width": 8,
+      "height": 24
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#FFB280",
+  "mcreator": {
+    "toolbox_id": "shadersutils",
+    "toolbox_init": [
+      "<value name=\"shader_location\"><block type=\"text\"><field name=\"TEXT\">mod_id:location/shader_name.json</field></block></value>"
+    ],
+    "inputs": [
+      "shader_location"
+    ],
+    "dependencies": [
+      {
+        "name": "entity",
+        "type": "entity"
+      },
+      {
+        "name": "world",
+        "type": "world"
+      }
+    ]
+  }
+}

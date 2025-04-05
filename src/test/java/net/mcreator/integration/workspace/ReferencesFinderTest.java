@@ -207,7 +207,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 	@Test void testLocalizationKeyUsagesSearch() {
 		String localizationKey = ListUtils.getRandomItem(
-				workspace.getLanguageMap().get("en_us").keySet().toArray(String[]::new));
+				workspace.getLanguageMap().get("zh_cn").keySet().toArray(String[]::new));
 		assertFalse(ReferencesFinder.searchLocalizationKeyUsages(workspace, localizationKey).isEmpty());
 	}
 }

@@ -45,6 +45,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.stream.Collectors;
 
 public class NewWorkspaceDialog extends MCreatorDialog {
@@ -117,7 +118,11 @@ public class NewWorkspaceDialog extends MCreatorDialog {
 				workspaceFile = new File(new File(current.getWorkspaceFolder()),
 						workspaceSettings.getModID() + ".mcreator");
 				Workspace workspace = Workspace.createWorkspace(workspaceFile, workspaceSettings);
-				workspace.close();
+				try {
+					workspace.close();
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
 				setVisible(false);
 			} else {
 				showErrorsMessage(w, current.getValidationResult());

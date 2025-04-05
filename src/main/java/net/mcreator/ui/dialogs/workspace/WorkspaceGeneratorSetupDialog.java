@@ -28,12 +28,14 @@ import net.mcreator.ui.dialogs.preferences.PreferencesDialog;
 import net.mcreator.ui.gradle.GradleConsole;
 import net.mcreator.ui.init.L10N;
 import net.mcreator.util.DesktopUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
+import java.io.File;
 import java.io.IOException;
 
 public class WorkspaceGeneratorSetupDialog {
@@ -50,6 +52,45 @@ public class WorkspaceGeneratorSetupDialog {
 
 			// setup workspacebase files
 			WorkspaceGeneratorSetup.setupWorkspaceBase(m.getWorkspace());
+
+			//fix
+			LOG.info("Fixing the gradle properties and setting script");
+
+			try {
+				File[] dirFiles = m.getWorkspace().getWorkspaceFolder().listFiles();
+				if(dirFiles!=null){
+					for (File dirFile : dirFiles) {
+						if(dirFile.getName().contains("settings.gradle")){
+							String contexts = FileUtils.readFileToString(dirFile);
+							if(!contexts.contains("aliyun")){
+								FileUtils.writeStringToFile(dirFile,contexts.replace("repositories {", """
+									repositories {
+											maven {url = 'https://maven.aliyun.com/repository/public/'}
+											maven {url = 'https://maven.aliyun.com/repository/gradle-plugin/'}"""));
+							}
+						}
+						if(dirFile.getName().equals("gradle")){
+							File[] gradleFiles = dirFile.listFiles();
+							if(gradleFiles!=null){
+								for (File gradleFile : gradleFiles) {
+									if(gradleFile.getName().equals("wrapper")){
+										File[] gradleWrapperFiles = gradleFile.listFiles();
+										if(gradleWrapperFiles!=null){
+											for (File file : gradleWrapperFiles) {
+												if(file.getName().contains("properties")){
+													FileUtils.writeStringToFile(file,FileUtils.readFileToString(file).replace("services.gradle.org/distributions","mirrors.tencent.com/gradle"));
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			} catch (IOException e) {
+				LOG.error("Error in fixing the workspace gradle properties and build script.");
+			}
 
 			p1.markStateOk();
 

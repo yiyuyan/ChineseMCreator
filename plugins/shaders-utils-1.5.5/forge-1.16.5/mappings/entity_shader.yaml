@@ -1,0 +1,9 @@
+CREEPER:
+  - CreeperEntity
+  - CREEPER
+SPIDER:
+  - SpiderEntity
+  - SPIDER
+ENDERMAN:
+  - EndermanEntity
+  - ENDERMAN

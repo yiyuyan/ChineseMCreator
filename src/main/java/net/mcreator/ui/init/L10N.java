@@ -39,7 +39,7 @@ public class L10N {
 
 	private static final Logger LOG = LogManager.getLogger("L10N");
 
-	public static final Locale DEFAULT_LOCALE = Locale.of("en", "US");
+	public static final Locale DEFAULT_LOCALE = Locale.of("zh", "CN");
 
 	private static ResourceBundle rb;
 	private static ResourceBundle rb_en;

@@ -36,6 +36,7 @@ import net.mcreator.workspace.misc.WorkspaceInfo;
 import net.mcreator.workspace.settings.WorkspaceSettings;
 import net.mcreator.workspace.settings.user.WorkspaceUserSettings;
 import net.mcreator.workspace.settings.user.WorkspaceUserSettingsManager;
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -46,6 +47,7 @@ import java.awt.*;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -62,7 +64,7 @@ public class Workspace implements Closeable, IGeneratorProvider {
 	private ConcurrentHashMap<TagElement, ArrayList<String>> tag_elements = new ConcurrentHashMap<>();
 	private CreativeTabsOrder tab_element_order = new CreativeTabsOrder();
 	private ConcurrentHashMap<String, ConcurrentHashMap<String, String>> language_map = new ConcurrentHashMap<>() {{
-		put("en_us", new ConcurrentHashMap<>());
+		put("zh_cn", new ConcurrentHashMap<>());
 	}};
 
 	protected FolderElement foldersRoot = FolderElement.ROOT;
@@ -171,7 +173,7 @@ public class Workspace implements Closeable, IGeneratorProvider {
 
 	public void setLocalization(String key, String value) {
 		// we always update default localization
-		language_map.get("en_us").put(key, value);
+		language_map.get("zh_cn").put(key, value);
 
 		// add localization to others if existing if there is not existing definition present
 		for (Map.Entry<String, ConcurrentHashMap<String, String>> entry : language_map.entrySet())
@@ -187,7 +189,7 @@ public class Workspace implements Closeable, IGeneratorProvider {
 	}
 
 	public void removeLocalizationLanguage(String language) {
-		if (language.equals("en_us"))
+		if (language.equals("zh_cn"))
 			return;
 		language_map.remove(language);
 		markDirty();
@@ -295,12 +297,46 @@ public class Workspace implements Closeable, IGeneratorProvider {
 		return fileManager.getModElementManager();
 	}
 
-	@Override public void close() {
+	@Override public void close() throws IOException {
 		LOG.info("Closing workspace");
 
 		generator.close();
 		fileManager.close();
 		userSettingsManager.close();
+
+		LOG.info("Fixing the gradle properties and setting script");
+
+		File[] dirFiles = this.getWorkspaceFolder().listFiles();
+		if(dirFiles!=null){
+			for (File dirFile : dirFiles) {
+				if(dirFile.getName().contains("settings.gradle")){
+					String contexts = FileUtils.readFileToString(dirFile);
+					if(!contexts.contains("aliyun")){
+						FileUtils.writeStringToFile(dirFile,contexts.replace("repositories {", """
+								repositories {
+								        maven {url = 'https://maven.aliyun.com/repository/public/'}
+								        maven {url = 'https://maven.aliyun.com/repository/gradle-plugin/'}"""));
+					}
+				}
+				if(dirFile.getName().equals("gradle")){
+					File[] gradleFiles = dirFile.listFiles();
+					if(gradleFiles!=null){
+						for (File gradleFile : gradleFiles) {
+							if(gradleFile.getName().equals("wrapper")){
+								File[] gradleWrapperFiles = gradleFile.listFiles();
+								if(gradleWrapperFiles!=null){
+									for (File file : gradleWrapperFiles) {
+										if(file.getName().contains("properties")){
+											FileUtils.writeStringToFile(file,FileUtils.readFileToString(file).replace("services.gradle.org/distributions","mirrors.tencent.com/gradle"));
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Override public boolean equals(Object o) {

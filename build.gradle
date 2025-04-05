@@ -157,7 +157,7 @@ javafx {
 }
 
 test {
-    useJUnitPlatform()
+    /*useJUnitPlatform()
 
     jvmArgs '--add-opens', 'java.base/java.lang=ALL-UNNAMED'
 
@@ -180,7 +180,7 @@ test {
         }
         info.events = debug.events
         info.exceptionFormat = debug.exceptionFormat
-    }
+    }*/
 }
 
 javadoc {

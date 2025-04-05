@@ -1,0 +1,13 @@
+{
+  "args0": [
+  ],
+  "output": "Boolean",
+  "colour": "#FFB280",
+  "mcreator": {
+    "toolbox_id": "shadersutils",
+    "toolbox_init": [
+    ],
+    "inputs": [
+    ]
+  }
+}

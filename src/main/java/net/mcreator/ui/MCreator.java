@@ -52,6 +52,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -304,7 +305,12 @@ public abstract class MCreator extends MCreatorFrame {
 					tab.getTabClosedListener().tabClosed(tab);
 			});
 
-			workspace.close();
+			try {
+				workspace.close();
+			} catch (IOException e) {
+				LOG.error("Error in closing the workspace!");
+				throw new RuntimeException(e);
+			}
 
 			setVisible(false); // close the window
 

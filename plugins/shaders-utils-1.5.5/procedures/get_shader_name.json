@@ -1,0 +1,29 @@
+{
+  "args0": [
+    {
+      "type": "field_image",
+      "src": "./res/client.png",
+      "width": 8,
+      "height": 24
+    }
+  ],
+  "output": "String",
+  "colour": "#FFB280",
+  "mcreator": {
+    "toolbox_id": "shadersutils",
+    "toolbox_init": [
+    ],
+    "inputs": [
+    ],
+    "dependencies": [
+      {
+        "name": "entity",
+        "type": "entity"
+      },
+      {
+        "name": "world",
+        "type": "world"
+      }
+    ]
+  }
+}
