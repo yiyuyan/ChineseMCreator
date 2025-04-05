@@ -21,7 +21,7 @@ Download MCreator binary distributions on https://mcreator.net/download.
 
 ## Development
 
-To clone this repository, run `git clone --recursive https://github.com/MCreator/MCreator.git`.
+To clone this repository, run `git clone --recursive https://github.com/yiyuyan/ChineseMCreator.git`.
 
 MCreator uses Gradle build system to manage the building and exporting. Use `runMCreator` task to run test MCreator.
 
